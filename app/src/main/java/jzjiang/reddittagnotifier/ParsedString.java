@@ -15,7 +15,7 @@ public class ParsedString  {
         //TYPE ARTIST TITLE UPVOTES URL
         StringBuilder str = new StringBuilder("");
         str.append(thread[1]);
-        str.append("-");
+        str.append(" - ");
         str.append(thread[2]);
         str.append(" #Upvotes: ");
         str.append(thread[3]);
@@ -24,7 +24,7 @@ public class ParsedString  {
     }
     public String returnUrl()
     {
-        StringBuilder st = new StringBuilder("https://www.reddit.com");
+        StringBuilder st = new StringBuilder("https://m.reddit.com");
         st.append(thread[4]);
         return st.toString();
     }
