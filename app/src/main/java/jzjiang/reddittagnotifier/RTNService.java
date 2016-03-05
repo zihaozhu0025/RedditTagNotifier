@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class RTNService extends IntentService{
 
@@ -30,11 +31,11 @@ public class RTNService extends IntentService{
     @Override
     protected void onHandleIntent(Intent intent) {
         JsonParsing parse = new JsonParsing("hiphopheads", "fresh");
-        while (true) { // lol infinite loop
+        while (MainActivity.bgOn) { // lol infinite loop
             try {
                 parse.update();
-                String k = parse.check();
-                while (!k.equals("")) {
+                ArrayList<String[]> k = parse.check();
+                while (k.size() > 0) {
                     sendNotification(k);
                     k = parse.check();
                     try {
@@ -57,14 +58,13 @@ public class RTNService extends IntentService{
     /**
      * Send a sample notification using the NotificationCompat API.
      */
-    public void sendNotification(String url) {
+    public void sendNotification(ArrayList<String[]> results) {
 
         /** Create an intent that will be fired when the user clicks the notification.
          * The intent needs to be packaged into a {@link android.app.PendingIntent} so that the
          * notification service can fire it on our behalf.
          */
-        Intent intent = new Intent(Intent.ACTION_VIEW,
-                Uri.parse("http://www.reddit.com" + url));
+        Intent intent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         /**
@@ -107,8 +107,8 @@ public class RTNService extends IntentService{
          *    anything vital!
          */
         builder.setContentTitle("Reddit Tag Notification");
-        builder.setContentText("FRE$H songs are available!");
-        builder.setSubText("Tap to view FRE$H songs.");
+        builder.setContentText(results.size() + " FRE$H song(s) are available!");
+        builder.setSubText("Tap to view FRE$H song(s).");
 
 
         /**
@@ -121,3 +121,4 @@ public class RTNService extends IntentService{
     }
 
 }
+

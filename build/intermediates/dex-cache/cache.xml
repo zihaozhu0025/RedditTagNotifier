@@ -1,2 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
+
+    <item
+        jar="C:\Users\zihao\RedditTagNotifier\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.2.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="d4c936aa8c7d2522c82e3f1829c791d9e367f009">
+        <dex dex="C:\Users\zihao\RedditTagNotifier\app\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.2.0_1bf61683eb17d1e7e5b562f1c5d400debb856d05.jar" />
+    </item>
+    <item
+        jar="C:\Users\zihao\RedditTagNotifier\app\build\intermediates\exploded-aar\com.android.support\design\23.2.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="1aa5b025efe97f5006f5be16d6ca67c6c3c0c0d8">
+        <dex dex="C:\Users\zihao\RedditTagNotifier\app\build\intermediates\pre-dexed\debug\com.android.support-design-23.2.0_d3ee4abc809638cbf5610cccb82275c69a1aed1b.jar" />
+    </item>
+
+</items>

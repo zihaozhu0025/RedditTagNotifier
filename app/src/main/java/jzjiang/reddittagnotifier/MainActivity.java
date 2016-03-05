@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.widget.*;
+import java.util.*;
 
 import java.io.IOException;
 
@@ -20,9 +21,11 @@ public class MainActivity extends Activity {
 
     public static final int NOTIFICATION_ID = 1;
     Button about_button;
-    Button latest_button;
+    ListView trackList;
     Button settings_button;
-
+    public static String currentBg;
+    public static boolean bgOn = true;
+    public LinkedList<String[]>songQ = new LinkedList<String[]>();
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
 
@@ -32,6 +35,24 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, RTNService.class);
         startService(intent);
         setContentView(R.layout.activity_main);
+        currentBg="white";
+        about_button= (Button)(findViewById(R.id.AboutButton));
+        about_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intentToAbout = new Intent(getApplicationContext(), About.class);
+                startActivity(intentToAbout);
+            }
+        });
+
+        settings_button = (Button)(findViewById(R.id.SettingsButton));
+        settings_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intentToSettings = new Intent(getApplicationContext(), Settings.class);
+                startActivity(intentToSettings);
+            }
+        });
+        trackList = (ListView)(findViewById(R.id.trackList));
+
     }
 
     @Override
