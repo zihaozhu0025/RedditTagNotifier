@@ -11,13 +11,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-public class JsonParsing {
+public class jsonParsing {
 	JsonArray posts; // A JsonArray of of JsonObject thread files.
 	HashSet<String> old_id = new HashSet<String>(); // id of the threads that we have checked.
 	String sURL;
 	String keyword;
 
-	JsonParsing(String subreddit, String key) {
+	jsonParsing(String subreddit, String key) {
 		sURL = "http://www.reddit.com/r/" + subreddit + ".json";
 		keyword = key;
 	}

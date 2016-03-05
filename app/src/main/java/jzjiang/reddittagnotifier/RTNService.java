@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
-import android.view.View;
 
 import java.io.IOException;
 
@@ -29,7 +27,7 @@ public class RTNService extends IntentService{
      */
     @Override
     protected void onHandleIntent(Intent intent) {
-        JsonParsing parse = new JsonParsing("hiphopheads", "fresh");
+        jsonParsing parse = new jsonParsing("hiphopheads", "fresh");
         while (true) { // lol infinite loop
             try {
                 parse.update();

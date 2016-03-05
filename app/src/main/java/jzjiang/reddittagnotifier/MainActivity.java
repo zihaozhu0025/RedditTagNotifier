@@ -1,40 +1,34 @@
 package jzjiang.reddittagnotifier;
 
-import android.app.Fragment;
-import android.app.LoaderManager;
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.app.Activity;
 import android.os.StrictMode;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.*;
 
 import java.io.IOException;
 
-public class MainActivity extends Activity{
+public class MainActivity extends Activity {
 
     public static final int NOTIFICATION_ID = 1;
+    Button about_button;
+    Button latest_button;
+    Button settings_button;
 
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-      //  Intent intent = new Intent(this, RTNService.class);
+        //  Intent intent = new Intent(this, RTNService.class);
         //startService(intent);
         setContentView(R.layout.activity_main);
     }
@@ -67,7 +61,7 @@ public class MainActivity extends Activity{
      */
     public void sendNotification(View view) throws IOException {
 
-      JsonParsing parse = new JsonParsing("hiphopheads", "fresh");
+      jsonParsing parse = new jsonParsing("hiphopheads", "fresh");
         parse.update();
         String result = parse.check();
 
