@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.app.Activity;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.graphics.BitmapFactory;
@@ -13,12 +14,15 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.widget.*;
+import java.net.*;
+import java.lang.reflect.Array;
 import java.util.*;
 
 import java.io.IOException;
 
 public class MainActivity extends Activity {
 
+    private static final String TASK = "main";
     public static final int NOTIFICATION_ID = 1;
     public static JsonParsing parse = new JsonParsing("hiphopheads", "fresh");
     Button about_button;
@@ -26,7 +30,6 @@ public class MainActivity extends Activity {
     Button settings_button;
     public static String currentBg;
     public static boolean bgOn = true;
-    public LinkedList<String[]>songQ = new LinkedList<String[]>();
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
 
@@ -52,7 +55,27 @@ public class MainActivity extends Activity {
                 startActivity(intentToSettings);
             }
         });
-        trackList = (ListView)(findViewById(R.id.trackList));
+        trackList = (ListView)(findViewById(R.id.trackListID));
+        LinkedList<ParsedString>goonStrings = new LinkedList<ParsedString>();
+        for(String[]thread: parse.total_thread_list)
+            goonStrings.add(new ParsedString(thread));
+        ArrayAdapter<ParsedString>tracksAdapter = new ArrayAdapter<ParsedString>
+                (getApplicationContext(), android.R.layout.simple_list_item_1,goonStrings);
+        trackList.setAdapter(tracksAdapter);
+        trackList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?>parent,final View view, int position, long Id)
+            {
+
+                final ParsedString item = (ParsedString)parent.getItemAtPosition(position);
+                //Log.i(TASK, "called");
+                Uri uri = Uri.parse(item.returnUrl());
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }
+
+        });
+        //TYPE ARTIST TITLE UPVOTES URL
 
     }
 
