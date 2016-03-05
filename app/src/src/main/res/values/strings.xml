@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">RedditTagNotifier</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_tracks">Tracks</string>
+    <string-array name = "backgroundOptions">
+        <item>White</item>
+        <item>Black</item>
+        <item>HHHSidebar</item>
+    </string-array>
+</resources>
