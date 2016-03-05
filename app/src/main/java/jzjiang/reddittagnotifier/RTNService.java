@@ -13,9 +13,9 @@ import android.view.View;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class RTNService extends IntentService{
-
 
     public static final int NOTIFICATION_ID = 1;
 
@@ -30,21 +30,16 @@ public class RTNService extends IntentService{
      */
     @Override
     protected void onHandleIntent(Intent intent) {
-        JsonParsing parse = new JsonParsing("hiphopheads", "fresh");
+
         while (MainActivity.bgOn) { // lol infinite loop
             try {
-                parse.update();
-                ArrayList<String[]> k = parse.check();
-                while (k.size() > 0) {
+                MainActivity.parse.update();
+                LinkedList<String[]> k = MainActivity.parse.check();
+                if (k.size() > 0) {
                     sendNotification(k);
-                    k = parse.check();
-                    try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    MainActivity.parse.process(k);
                 }
-                Thread.sleep(60000); // delay for 1 minute
+                Thread.sleep(10000); // delay for 1 minute
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
@@ -58,7 +53,7 @@ public class RTNService extends IntentService{
     /**
      * Send a sample notification using the NotificationCompat API.
      */
-    public void sendNotification(ArrayList<String[]> results) {
+    public void sendNotification(LinkedList<String[]> results) {
 
         /** Create an intent that will be fired when the user clicks the notification.
          * The intent needs to be packaged into a {@link android.app.PendingIntent} so that the

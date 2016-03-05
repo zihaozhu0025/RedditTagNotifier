@@ -20,6 +20,7 @@ import java.io.IOException;
 public class MainActivity extends Activity {
 
     public static final int NOTIFICATION_ID = 1;
+    public static JsonParsing parse = new JsonParsing("hiphopheads", "fresh");
     Button about_button;
     ListView trackList;
     Button settings_button;

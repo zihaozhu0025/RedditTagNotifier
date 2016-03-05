@@ -4,8 +4,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -13,8 +14,8 @@ import com.google.gson.JsonParser;
 
 public class JsonParsing {
 	JsonArray posts; // A JsonArray of of JsonObject thread files.
-	HashSet<String> old_id = new HashSet<String>(); // id of the threads that we
-	// have checked.
+	HashSet<String> old_id = new HashSet<String>(); // id of the threads that we have checked.
+    LinkedList<String[]> total_thread_list = new LinkedList<String[]>();
 	String sURL;
 	String keyword;
 	JsonParsing(String subreddit, String key) {
@@ -39,16 +40,16 @@ public class JsonParsing {
 		} catch (Exception e) {
 		}
 	}
-	// check() checks if there are any new threads and returns an ArrayList
+	// check() checks if there are any new threads and returns an LinkedList
 	// of an array with [TYPE, ARTIST, TITLE, UPVOTES, URL]
 	@SuppressWarnings("null")
-	ArrayList<String[]> check() {
+	LinkedList<String[]> check() {
 		JsonObject post;
 		String url;
 		String id;
 		String title;
 		String upvotes;
-		ArrayList<String[]> thread_list = new ArrayList<String[]>();
+        LinkedList<String[]> thread_list = new LinkedList<String[]>();
 		try {
 			for (JsonElement postelement : posts) {
 				post = postelement.getAsJsonObject().get("data")
@@ -71,4 +72,12 @@ public class JsonParsing {
 		}
 		return thread_list;
 	}
+
+    // process() ensures thread_list stays under 10.
+    void process(LinkedList<String[]> thread_list) {
+        total_thread_list.addAll(thread_list);
+        while (total_thread_list.size() > 10) {
+            total_thread_list.remove();
+        }
+    }
 }
