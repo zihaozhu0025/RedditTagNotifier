@@ -1,3 +1,5 @@
+package jzjiang.reddittagnotifier;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -9,13 +11,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-public class jsonParsing {
+public class JsonParsing {
 	JsonArray posts; // A JsonArray of of JsonObject thread files.
 	HashSet<String> old_id = new HashSet<String>(); // id of the threads that we have checked.
 	String sURL;
 	String keyword;
 
-	jsonParsing(String subreddit, String key) {
+	JsonParsing(String subreddit, String key) {
 		sURL = "http://www.reddit.com/r/" + subreddit + ".json";
 		keyword = key;
 	}
@@ -45,7 +47,6 @@ public class jsonParsing {
 		JsonObject post;
 		String url;
 		String id;
-		this.update();
 		for (JsonElement postelement : posts) {
 			post = postelement.getAsJsonObject().get("data").getAsJsonObject();
 			id = post.get("id").getAsString();

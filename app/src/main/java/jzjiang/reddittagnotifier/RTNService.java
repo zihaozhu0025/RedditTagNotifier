@@ -1,82 +1,62 @@
 package jzjiang.reddittagnotifier;
 
-import android.app.Fragment;
-import android.app.LoaderManager;
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.os.Bundle;
+
+import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.app.Activity;
-import android.os.StrictMode;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 
 import java.io.IOException;
 
-public class MainActivity extends Activity{
+public class RTNService extends IntentService{
+
 
     public static final int NOTIFICATION_ID = 1;
 
-    protected void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
-      //  Intent intent = new Intent(this, RTNService.class);
-        //startService(intent);
-        setContentView(R.layout.activity_main);
+    public RTNService() {
+        super("RTNService");
     }
 
+    /**
+     * The IntentService calls this method from the default worker thread with
+     * the intent that started the service. When this method returns, IntentService
+     * stops the service, as appropriate.
+     */
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    protected void onHandleIntent(Intent intent) {
+        JsonParsing parse = new JsonParsing("hiphopheads", "fresh");
+        while (true) { // lol infinite loop
+            try {
+                parse.update();
+                String result = parse.check();
+                sendNotification(result);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                Thread.sleep(6000000); // delay for 10 minutes
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-
-        return super.onOptionsItemSelected(item);
     }
-
 
     /**
      * Send a sample notification using the NotificationCompat API.
      */
-    public void sendNotification(View view) throws IOException {
+    public void sendNotification(String url) {
 
-      JsonParsing parse = new JsonParsing("hiphopheads", "fresh");
-        parse.update();
-        String result = parse.check();
-
-       /** Create an intent that will be fired when the user clicks the notification.
+        /** Create an intent that will be fired when the user clicks the notification.
          * The intent needs to be packaged into a {@link android.app.PendingIntent} so that the
          * notification service can fire it on our behalf.
          */
         Intent intent = new Intent(Intent.ACTION_VIEW,
-                Uri.parse("http://www.reddit.com" + result));
+                Uri.parse("http://www.reddit.com" + url));
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         /**
@@ -131,6 +111,5 @@ public class MainActivity extends Activity{
                 NOTIFICATION_SERVICE);
         notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
-
 
 }
