@@ -60,7 +60,7 @@ public class MainActivity extends Activity {
          * notification service can fire it on our behalf.
          */
         Intent intent = new Intent(Intent.ACTION_VIEW,
-                Uri.parse("http://developer.android.com/reference/android/app/Notification.html"));
+                Uri.parse("http://www.reddit.com/r/hiphopheads"));
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         /**
@@ -102,9 +102,9 @@ public class MainActivity extends Activity {
          *    versions of Android prior to 4.2 will ignore this field, so don't use it for
          *    anything vital!
          */
-        builder.setContentTitle("BasicNotifications Sample");
-        builder.setContentText("Time to learn about notifications!");
-        builder.setSubText("Tap to view documentation about notifications.");
+        builder.setContentTitle("Reddit Tag Notification");
+        builder.setContentText("FRE$H songs are available!");
+        builder.setSubText("Tap to view FRE$H songs.");
 
 
         /**
